@@ -1,17 +1,17 @@
 use strict;
 use warnings;
-use inc::Module::Install 0.91;
+use inc::Module::Install 0.98;
 use Module::Install::AuthorRequires;
 use Module::Install::AuthorTests;
 
 name 'MooseX-Types-DateTime-MySQL';
 all_from 'lib/MooseX/Types/DateTime/MySQL.pm';
 
-requires 'Moose';
-requires 'namespace::autoclean';
+requires 'MooseX::Types';
+requires 'namespace::clean';
+requires 'MooseX::Types::DateTime' => '0.05';
+requires 'DateTime::Format::MySQL';
 
-build_requires 'Catalyst::Runtime' => '5.80015';
-build_requires 'Test::WWW::Mechanize::Catalyst';
 build_requires 'Test::More' => '0.88';
 
 author_requires 'Test::Pod::Coverage' => '1.04';
@@ -19,7 +19,7 @@ author_requires 'Test::Pod' => '1.14';
 
 author_tests 't/author';
 
-resources repository => 'git://somewhere.com/myproject.git';
+resources repository => 'git://github.com/bobtfish/moosex-types-datetime-mysql.git';
 
 if ($Module::Install::AUTHOR) {
     system("pod2text lib/MooseX/Types/DateTime/MySQL.pm > README")
