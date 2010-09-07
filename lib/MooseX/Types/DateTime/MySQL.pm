@@ -8,7 +8,7 @@ use MooseX::Types::Moose qw/ Str /;
 use DateTime::Format::MySQL;
 use namespace::clean;
 
-our $VERSION = '0.001';
+our $VERSION = '0.002';
 
 subtype MySQLDateTime,
     as Str,
