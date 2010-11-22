@@ -13,6 +13,10 @@ TYPES
   MySQLDate
     Coerces to and from "DateTime" and will coerce to "MySQLDateTime".
 
+  MySQLTime
+    Coerces from "Int" (duration) and "DateTime" (by extracting only the
+    time part).
+
 BUGS
     The MySQL datetime detection regex is imperfect as it just looks for "
     \d "s, rather than things which are known valid months.
