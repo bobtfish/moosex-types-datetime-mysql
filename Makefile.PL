@@ -11,6 +11,7 @@ requires 'MooseX::Types';
 requires 'namespace::clean';
 requires 'MooseX::Types::DateTime' => '0.05';
 requires 'DateTime::Format::MySQL';
+requires 'DateTime::Format::Duration';
 
 build_requires 'Test::More' => '0.88';
 

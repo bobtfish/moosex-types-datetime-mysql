@@ -2,21 +2,28 @@ package MooseX::Types::DateTime::MySQL;
 use MooseX::Types -declare => [qw/
     MySQLDateTime
     MySQLDate
+    MySQLTime
 /];
-use MooseX::Types::DateTime qw/ DateTime /;
-use MooseX::Types::Moose qw/ Str /;
+use MooseX::Types::DateTime qw/ DateTime Duration /;
+use MooseX::Types::Moose qw/ Str Int /;
 use DateTime::Format::MySQL;
+use DateTime::Duration;
+use DateTime::Format::Duration;
 use namespace::clean;
 
 our $VERSION = '0.002';
 
 subtype MySQLDateTime,
     as Str,
-    where { /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/ };
+    where { /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/ };
 
 subtype MySQLDate,
     as Str,
-    where { /\d{4}-\d{2}-\d{2}/ };
+    where { /^\d{4}-\d{2}-\d{2}$/ };
+
+subtype MySQLTime,
+    as Str,
+    where { /^-?\d?\d{2}:\d{2}:\d{2}$/ };
 
 coerce MySQLDateTime,
     from DateTime,
@@ -25,6 +32,17 @@ coerce MySQLDateTime,
 coerce MySQLDate,
     from DateTime,
     via { DateTime::Format::MySQL->format_date($_) };
+
+coerce MySQLTime,
+    from DateTime,
+    via { DateTime::Format::MySQL->format_time($_) };
+
+{
+    my $formatter = DateTime::Format::Duration->new(pattern => "%H:%M:%S", normalize => 1);
+    coerce MySQLTime,
+        from Int,
+        via { $formatter->format_duration(DateTime::Duration->new(seconds => $_)) };
+}
 
 coerce DateTime,
     from MySQLDateTime,
@@ -58,6 +76,10 @@ Coerces to and from C<DateTime>.
 =head2 MySQLDate
 
 Coerces to and from C<DateTime> and will coerce to C<MySQLDateTime>.
+
+=head2 MySQLTime
+
+Coerces from C<Int> (duration) and C<DateTime> (by extracting only the time part).
 
 =head1 BUGS
 
