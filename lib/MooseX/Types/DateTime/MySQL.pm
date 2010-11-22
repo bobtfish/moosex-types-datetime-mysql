@@ -11,7 +11,7 @@ use DateTime::Duration;
 use DateTime::Format::Duration;
 use namespace::clean;
 
-our $VERSION = '0.002';
+our $VERSION = '0.003';
 
 subtype MySQLDateTime,
     as Str,
